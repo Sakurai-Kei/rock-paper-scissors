@@ -4,7 +4,7 @@ let result;
 let playerScore=0;
 let computerScore=0;
 
-function computerPlay() {
+function computerPlay() { /* This function decides what the computer going to choose*/
     let computerSelection;
     let computerRNG = Math.floor(Math.random()*(4-1)+1);
 
@@ -22,7 +22,7 @@ function computerPlay() {
     return computerSelection;
 }
 
-function gameStart(playerSelection,computerSelection) {
+function gameStart(playerSelection,computerSelection) { /* This function starts a round of game. This does not repeat for draw. Will have to change a bit to make sure only win or lose */
     let playerSelectionCap = playerSelection.toUpperCase();
     let computerSelectionCap = computerSelection.toUpperCase();
 
@@ -76,14 +76,14 @@ function gameStart(playerSelection,computerSelection) {
     return result;
 }
 
-function gameLoop(){
+function gameLoop(){ /* Repeat the game 5 times */
     let round = 1;
     let playerWinCheck;
     let drawCheck;
     let wrongCheck;
     for(round == 1; round <=5; round++){
         computerSelection = computerPlay();
-        for(let keepGoing = true; keepGoing == true;){
+        for(let keepGoing = true; keepGoing == true;){ /* For People who wanna spam wrong answer */
             playerSelection = prompt("Rock, Paper, or Scissors?");
             console.log(gameStart(playerSelection,computerSelection));
             wrongCheck = result.search("Wrong");
