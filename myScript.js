@@ -80,6 +80,26 @@ function gameStart(playerSelection,computerSelection) {
 
 }
 
+function updateScore(){
+    playerScoreText.textContent = `Player: ${playerScore}`;
+    computerScoreText.textContent = `Computer: ${computerScore}`;
+}
+
+function winCondition(){
+    if(playerScore === 5){
+        alert('Player Wins 5 rounds!');
+        playerScore=0;
+        computerScore=0;
+        updateScore();
+    }
+    else if(computerScore === 5){
+        alert('Computer Wins 5 rounds!');
+        playerScore=0;
+        computerScore=0;
+        updateScore();
+    }
+}
+
 const buttons = document.querySelectorAll('.playerInput');
 
 buttons.forEach((button) => {
@@ -97,7 +117,6 @@ start.addEventListener('click', () =>{
     computerPlay();
     gameStart(playerSelection,computerSelection);
     alert(result);
-    playerScoreText.textContent = `Player: ${playerScore}`;
-    computerScoreText.textContent = `Computer: ${computerScore}`;
-})
-
+    updateScore();
+    winCondition();
+});
