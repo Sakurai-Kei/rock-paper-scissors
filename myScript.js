@@ -4,69 +4,72 @@ let result;
 let playerScore=0;
 let computerScore=0;
 
-function computerPlay() { /* This function decides what the computer going to choose*/
-    let computerSelection;
+function computerPlay() { 
     let computerRNG = Math.floor(Math.random()*(4-1)+1);
 
     if(computerRNG == 1){
-        computerSelection = "Rock";
+        computerSelection = "rock";
     }
     else if(computerRNG == 2){
-        computerSelection = "Paper";
+        computerSelection = "paper";
     }
     else{
-        computerSelection = "Scissors"; 
+        computerSelection = "scissors"; 
     }
     /*console.log(computerRNG);
     console.log(computerSelection);*/
     return computerSelection;
 }
 
-function gameStart(playerSelection,computerSelection) { /* This function starts a round of game. This does not repeat for draw. Will have to change a bit to make sure only win or lose */
-    let playerSelectionCap = playerSelection.toUpperCase();
-    let computerSelectionCap = computerSelection.toUpperCase();
+function gameStart(playerSelection,computerSelection) { 
 
-    if(playerSelectionCap === "ROCK"){
-        if(computerSelectionCap === "ROCK"){
-            result = `A Draw. You choose ${playerSelectionCap}
-                            and Computer choose ${computerSelectionCap}`;              
+    if(playerSelection === "rock"){
+        if(computerSelection === "rock"){
+            result = `A Draw. You choose ${playerSelection}
+                            and Computer choose ${computerSelection}`;              
         }
-        else if(computerSelectionCap === "PAPER"){
-            result = `You Lose. You choose ${playerSelectionCap}
-                             and Computer choose ${computerSelectionCap}`;
+        else if(computerSelection === "paper"){
+            result = `You Lose. You choose ${playerSelection}
+                             and Computer choose ${computerSelection}`;
+            computerScore++;                 
         }
         else{
-            result = `You Win. You choose ${playerSelectionCap}
-                            and Computer choose ${computerSelectionCap}`;
+            result = `You Win. You choose ${playerSelection}
+                            and Computer choose ${computerSelection}`;
+            playerScore++;                
         }
     }
-    else if(playerSelectionCap === "PAPER"){
-        if(computerSelectionCap === "ROCK"){
-            result = `You Win. You choose ${playerSelectionCap}
-                            and Computer choose ${computerSelectionCap}`;
+    else if(playerSelection === "paper"){
+        if(computerSelection === "rock"){
+            result = `You Win. You choose ${playerSelection}
+                            and Computer choose ${computerSelection}`;
+            playerScore++;
         }
-        else if(computerSelectionCap === "Paper"){
-            result = `A Draw. You choose ${playerSelectionCap}
-                             and Computer choose ${computerSelectionCap}`;
+        else if(computerSelection === "paper"){
+            result = `A Draw. You choose ${playerSelection}
+                             and Computer choose ${computerSelection}`;
         }
         else{
-            result = `You Lose. You choose ${playerSelectionCap}
-                            and Computer choose ${computerSelectionCap}`;
+            result = `You Lose. You choose ${playerSelection}
+                            and Computer choose ${computerSelection}`;
+            computerScore++;
         }
         return result;
     }
-    else if(playerSelectionCap === "SCISSORS"){
-        if(computerSelectionCap === "ROCK"){
-            result = `You Lose. You choose ${playerSelectionCap}
-                            and Computer choose ${computerSelectionCap}`;
+    else if(playerSelection === "scissors"){
+        if(computerSelection === "rock"){
+            result = `You Lose. You choose ${playerSelection}
+                            and Computer choose ${computerSelection}`;
+            computerScore++;
         }
-        else if(computerSelectionCap === "Paper"){
-            result = `You Win. You choose ${playerSelectionCap}
-                             and Computer choose ${computerSelectionCap}`;
+        else if(computerSelection === "paper"){
+            result = `You Win. You choose ${playerSelection}
+                             and Computer choose ${computerSelection}`;
+            playerScore++;
         }
         else{
-            result = `A Draw. You choose ${playerSelectionCap}
-                            and Computer choose ${computerSelectionCap}`;
+            result = `A Draw. You choose ${playerSelection}
+                            and Computer choose ${computerSelection}`;
         }
         return result;
     }
@@ -74,52 +77,27 @@ function gameStart(playerSelection,computerSelection) { /* This function starts 
         result = `Wrong input. You entered ${playerSelection}`;
     }
     return result;
+
 }
 
-function gameLoop(){ /* Repeat the game 5 times */
-    let round = 1;
-    let playerWinCheck;
-    let drawCheck;
-    let wrongCheck;
-    for(round == 1; round <=5; round++){
-        computerSelection = computerPlay();
-        for(let keepGoing = true; keepGoing == true;){ /* For People who wanna spam wrong answer */
-            playerSelection = prompt("Rock, Paper, or Scissors?");
-            console.log(gameStart(playerSelection,computerSelection));
-            wrongCheck = result.search("Wrong");
-            if(wrongCheck === -1){
-                keepGoing = false;
-            }
-        }
-        console.log(gameStart(playerSelection,computerSelection));
-        playerWinCheck = result.search("Win");
-        if(playerWinCheck === -1){
-            drawCheck = result.search("Draw");
-            if(drawCheck === -1){
-                wrongCheck = result.search("Wrong");
-                if(wrongCheck === -1){
-                    computerScore++;
-                }
-            }
-        }
-        else{
-            playerScore++;
-        }
-    }
-    console.log(`You win ${playerScore} out of 5 round against the computer`);
-    if(playerScore > computerScore){
-        playerScore=0;
-        computerScore=0;
-        return console.log(`Congratulation, you win the Game!`)
-    }
-    else if(computerScore > playerScore){
-        playerScore=0;
-        computerScore=0;
-        return console.log(`Unfortunately, you lost the Game!`)
-    }
-    else{
-        playerScore=0;
-        computerScore=0;
-        return console.log(`The Game ended in a draw as both you and the computer won the same number of round`);
-    }
-}
+const buttons = document.querySelectorAll('.playerInput');
+
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        playerSelection = button.id;
+    })
+});
+
+const playerScoreText = document.querySelector('.playerScore');
+
+const computerScoreText = document.querySelector('.computerScore');
+
+const start = document.getElementById('gameStart');
+start.addEventListener('click', () =>{
+    computerPlay();
+    gameStart(playerSelection,computerSelection);
+    alert(result);
+    playerScoreText.textContent = `Player: ${playerScore}`;
+    computerScoreText.textContent = `Computer: ${computerScore}`;
+})
+
